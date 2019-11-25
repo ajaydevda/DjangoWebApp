@@ -2,26 +2,23 @@ import requests
 from myapp.models import Webcontent
 from django.http import HttpResponse
 from django.shortcuts import render
-
+from myapp.sqlliteDatatBaseHander import sqlliteDatatBaseHander
 
 def home(request) :
      #return HttpResponse('<h1>hello</h1>')
 
-    webcontentToSave = Webcontent(
-      webTextContent = "www.polo.com"
-    )
-   
-    webcontentToSave.save()
-    
-    
-    objects = Webcontent.objects.all()
-   
-    for elt in objects:
-        res = elt.webTextContent
-        print(res)
-    
-    
-    return render(request,'myapp/index.html')
+    sqllightCon = sqlliteDatatBaseHander()
+    sqllightCon.textToDelete="Help The Children in need"
+    sqllightCon.webCOntentDelete()
+    sqllightCon.webContentCreate()
+        
+    contentStr=sqllightCon.webContentRead()
+    # for elt in contentStr:
+    #         res = elt.webTextContent
+    #         print(res)
+           
+
+    return render(request,'myapp/index.html',{'title':contentStr})
 
 def blog(request) :
     return render(request,'myapp/blog.html')
